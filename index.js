@@ -1,11 +1,18 @@
+// index.js
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
-import mediaRoutes from "./routes/mediaRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
 
 const app = express();
+const PORT = 3005;
 
-// Enable CORS for http://localhost:3001
+// Middleware
+// app.use(json());
+// app.use(cors());
+app.use(express.json({ limit: "50mb" })); // Set the limit based on your requirements
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+// Routes
 app.use(
   cors({
     origin: "http://localhost:3001",
@@ -14,14 +21,9 @@ app.use(
     credentials: true, // If you need to handle cookies or authentication headers
   })
 );
+app.use("/v1", postRoutes);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Use your routes
-app.use("/", mediaRoutes);
-
-const PORT = process.env.PORT || 3000;
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

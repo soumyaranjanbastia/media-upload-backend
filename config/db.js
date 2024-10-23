@@ -1,15 +1,16 @@
-// /config/dbConfig.js
+// /config/db.js
 
 import { createPool } from "mariadb";
 
-const db = {
+const dbConfig = {
   host: "localhost",
-  port: "3307",
+  port: "3306",
   user: "root",
   password: "root",
-  database: "media_upload",
+  database: "media",
 };
 
-const pool = createPool(db);
+const pool = createPool(dbConfig);
 
-export default pool;
+// Export the pool for use in other files
+export { pool };
